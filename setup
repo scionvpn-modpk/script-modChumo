@@ -4,13 +4,19 @@ clear
 echo "======================================"
 echo " INSTALADOR OFICIAL MODCHUMO"
 echo "======================================"
+echo ""
 
 apt update -y
-apt install -y git curl wget
+apt install -y curl wget bash
 
-rm -rf /tmp/script-modChumo
-git clone https://github.com/scionvpn-modpk/script-modChumo.git /tmp/script-modChumo
+rm -f /tmp/modchumo_setup
 
-cd /tmp/script-modChumo || exit 1
-chmod +x install.sh
-bash install.sh
+wget -q https://api.scionvps.fun/setup -O /tmp/modchumo_setup
+
+if [ ! -s /tmp/modchumo_setup ]; then
+    echo "No se pudo descargar el instalador oficial."
+    exit 1
+fi
+
+chmod +x /tmp/modchumo_setup
+bash /tmp/modchumo_setup
