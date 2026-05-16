@@ -13,7 +13,7 @@ fi
 
 echo "Instalando dependencias básicas..."
 apt update -y
-apt install -y curl wget unzip tar gzip bzip2 python3 python3-pip nginx openssh-server net-tools lsof cron
+apt install -y curl wget unzip tar gzip bzip2 python3 python3-pip nginx openssh-server net-tools lsof cron figlet bc jq lolcat zip
 
 echo "Creando carpetas..."
 mkdir -p /etc/adm-lite
@@ -52,6 +52,43 @@ if [ -f /bin/autoboot ]; then
     crontab /tmp/cronpanel
     rm -f /tmp/cronpanel
 fi
+
+
+# Fix archivos auxiliares que el panel lee con cat
+mkdir -p /bin/ejecutar
+IP=$(curl -s ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')
+echo "$IP" > /bin/ejecutar/IPcgh
+echo "Verified" > /bin/ejecutar/exito
+touch /bin/ejecutar/v-new.log
+chmod 644 /bin/ejecutar/IPcgh
+chmod 644 /bin/ejecutar/exito
+chmod 644 /bin/ejecutar/v-new.log
+
+# Comandos auxiliares mínimos
+cat > /usr/bin/msg <<'EOF'
+#!/bin/bash
+case "$1" in
+  -bar)
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    ;;
+  -ama|-verm|-verd|-azu|-bra|-ne)
+    shift
+    echo "$@"
+    ;;
+  *)
+    echo "$@"
+    ;;
+esac
+EOF
+chmod +x /usr/bin/msg
+
+cat > /usr/bin/selection_fun <<'EOF'
+#!/bin/bash
+read -p "Opción: " opc
+echo "$opc"
+EOF
+chmod +x /usr/bin/selection_fun
+
 
 echo "Reiniciando servicios básicos..."
 systemctl restart ssh 2>/dev/null
