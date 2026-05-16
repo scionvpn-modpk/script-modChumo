@@ -90,6 +90,23 @@ EOF
 chmod +x /usr/bin/selection_fun
 
 
+
+# Datos enviados por el bot
+RESELLER_NAME="${RESELLER_NAME:-SCIONVPN}"
+KEY_GENERADA="${KEY_GENERADA:-Verified}"
+
+mkdir -p /bin/ejecutar
+IP=$(curl -s ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')
+
+echo "$IP" > /bin/ejecutar/IPcgh
+echo "$RESELLER_NAME" > /bin/ejecutar/exito
+touch /bin/ejecutar/v-new.log
+
+chmod 644 /bin/ejecutar/IPcgh
+chmod 644 /bin/ejecutar/exito
+chmod 644 /bin/ejecutar/v-new.log
+
+
 echo "Reiniciando servicios básicos..."
 systemctl restart ssh 2>/dev/null
 systemctl restart nginx 2>/dev/null
