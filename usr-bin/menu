@@ -1,3 +1,0 @@
-#!/bin/bash
-SCPdir="/etc/adm-lite"
-cd ${SCPdir} && ./menu
