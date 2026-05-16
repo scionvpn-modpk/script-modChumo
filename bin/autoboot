@@ -1,0 +1,1 @@
+netstat -au | grep -w 5300 > /dev/null || {  screen -r -S 'slowdns' -X quit;  screen -dmS slowdns /bin/dns-server -udp :5300 -privkey-file /etc/adm-lite/slow/dnsi/server.key hsjsks 127.0.0.1:22 ; }
